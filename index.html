@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crowdfunding Campaign</title>
+<style>
+:root{--bg:#fbf6ee;--card:#fffdf9;--ink:#23201c;--mute:#7b746a;--acc:#e0562b;--acc2:#f6b73c;--accink:#fff;--soft:#f3e9da;--line:#eadfce;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#171310;--card:#211c17;--ink:#f6efe6;--mute:#a99f91;--acc:#ff7a4d;--acc2:#f6b73c;--accink:#1a0f08;--soft:#2d261f;--line:#3a3128;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171310;--card:#211c17;--ink:#f6efe6;--mute:#a99f91;--acc:#ff7a4d;--acc2:#f6b73c;--accink:#1a0f08;--soft:#2d261f;--line:#3a3128;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;position:relative;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;z-index:0;border-radius:50%;filter:blur(70px);opacity:.35;pointer-events:none}
+body::before{width:320px;height:320px;background:var(--acc2);top:-90px;right:-90px}
+body::after{width:300px;height:300px;background:var(--acc);bottom:-110px;left:-110px;opacity:.22}
+.wrap{position:relative;z-index:1;max-width:620px;margin:0 auto;padding:22px 18px 56px}
+.top{display:flex;justify-content:space-between;align-items:center;min-height:36px}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mute)}
+.dot{width:9px;height:9px;border-radius:50%;background:#2fb36b;animation:p 1.6s infinite}
+@keyframes p{50%{opacity:.25}}
+.hero{text-align:center;margin:18px 0 22px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:700;background:var(--soft);padding:5px 12px;border-radius:99px}
+h1{font:700 clamp(30px,8vw,46px)/1.12 Georgia,"Times New Roman",serif;margin:14px 0 10px;letter-spacing:-.01em}
+.sub{font-size:17px;color:var(--mute);margin:0 auto;max-width:480px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 14px 40px -24px rgba(0,0,0,.35)}
+.ringbox{position:relative;width:230px;height:230px;margin:0 auto}
+.ringbox svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ringbox circle{fill:none;stroke-width:16;stroke-linecap:round}
+.trk{stroke:var(--soft)}
+.val{stroke:url(#g);stroke-dasharray:565.49;stroke-dashoffset:565.49;transition:stroke-dashoffset 1s ease}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.pct{font:700 44px/1 Georgia,serif;color:var(--acc)}
+.pctl{font-size:13px;color:var(--mute);margin-top:4px}
+.amt{text-align:center;margin-top:16px}
+.raised{font:700 clamp(26px,7vw,34px)/1.1 Georgia,serif;font-variant-numeric:tabular-nums}
+.of{color:var(--mute);font-size:15px;margin-top:4px}
+.left{display:inline-block;margin-top:10px;font-size:13px;background:var(--soft);padding:4px 12px;border-radius:99px;color:var(--mute)}
+.btn{appearance:none;border:0;font:inherit;font-weight:700;padding:15px 18px;border-radius:16px;cursor:pointer;width:100%;margin-top:18px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:var(--accink);font-size:17px;transition:transform .15s}
+.btn:active{transform:scale(.98)}
+.btn.sm{width:auto;margin:0;padding:10px 16px;font-size:15px}
+.btn.alt{background:var(--soft);color:var(--ink);width:auto;margin:0;padding:7px 14px;font-size:14px;font-weight:600}
+.bank{display:none;margin-top:16px;border:1px dashed var(--acc);border-radius:18px;padding:18px;background:var(--soft)}
+.bank.open{display:block;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(-6px)}}
+.bank h3{margin:0 0 10px;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.r{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.r:last-of-type{border:0}
+.r span:first-child{color:var(--mute);font-size:14px}
+.r b{font-size:17px;text-align:right}
+.acc{font:700 22px/1.2 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em}
+.copy{margin-top:12px}
+.pnote{font-size:14px;color:var(--mute);margin:12px 0 0;white-space:pre-wrap}
+.story{margin-top:18px}
+.story h2{font:700 22px/1.2 Georgia,serif;margin:0 0 10px}
+.story p{margin:0;white-space:pre-wrap}
+.admin{margin-top:18px;border-style:dashed}
+.admin h2{font-size:18px;margin:0 0 4px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-top:12px}
+label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
+input{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:170px}
+.note{font-size:13px;color:var(--mute);margin-top:8px}
+.editing [data-f]{outline:2px dashed var(--acc);outline-offset:4px;border-radius:6px;cursor:text}
+.hide{display:none!important}
+footer{margin-top:22px;font-size:13px;color:var(--mute);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="live"><span class="dot"></span><span id="status">Live total</span></span>
+    <button class="btn alt hide" id="editBtn">Edit page</button>
+  </div>
+
+  <div class="hero">
+    <span class="tag">Fundraiser</span>
+    <h1 data-f="title">Help Us Build a Little Library for Our Village</h1>
+    <p class="sub" data-f="sub">Books, shelves and a quiet reading corner for 100 children. Every rupiah counts.</p>
+  </div>
+
+  <div class="card">
+    <div class="ringbox">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0562b"/><stop offset="1" stop-color="#f6b73c"/></linearGradient></defs>
+        <circle class="trk" cx="100" cy="100" r="90"/>
+        <circle class="val" id="ring" cx="100" cy="100" r="90"/>
+      </svg>
+      <div class="center"><div class="pct" id="pct">0%</div><div class="pctl">funded</div></div>
+    </div>
+    <div class="amt">
+      <div class="raised" id="raised">Rp 0</div>
+      <div class="of">raised of <b id="goalTxt">Rp 12.000.000</b></div>
+      <span class="left" id="left"></span>
+    </div>
+    <button class="btn" id="donate">Donate now</button>
+
+    <div class="bank" id="bank">
+      <h3>Transfer to</h3>
+      <div class="r"><span>Bank</span><b data-f="bankName">BCA</b></div>
+      <div class="r"><span>Account number</span><b class="acc" data-f="accNo">1234567890</b></div>
+      <div class="r"><span>Account name</span><b data-f="accName">Your Name</b></div>
+      <button class="btn sm copy" id="copyBtn">Copy account number</button>
+      <p class="pnote" data-f="payNote">After transferring, please send the proof to [WhatsApp / email] so we can add your donation to the total. Thank you!</p>
+    </div>
+  </div>
+
+  <div class="card story">
+    <h2 data-f="storyTitle">Why we’re raising this</h2>
+    <p data-f="story">Tell your story here: who you are, what problem you want to solve, how the Rp 12 million will be used (for example books, shelves, lighting) and what changes once the goal is reached.
+
+Tap “Edit page” (owner only) to change any text on this page.</p>
+  </div>
+
+  <div class="card admin hide" id="admin">
+    <h2>Owner panel</h2>
+    <div class="note">Changes save to a shared database and update every visitor live.</div>
+    <div class="row">
+      <div><label for="add">New donation (Rp)</label><input id="add" type="number" min="0" step="1000" placeholder="e.g. 250000"></div>
+      <button class="btn sm" id="addBtn">Add to total</button>
+    </div>
+    <div class="row">
+      <div><label for="raisedIn">Total raised (Rp)</label><input id="raisedIn" type="number" min="0" step="1000"></div>
+      <div><label for="goalIn">Goal (Rp)</label><input id="goalIn" type="number" min="0" step="1000"></div>
+      <button class="btn sm" id="saveBtn">Save changes</button>
+    </div>
+    <div class="note" id="msg"></div>
+  </div>
+
+  <footer>Totals update in real time</footer>
+</div>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var DEF={};
+  document.querySelectorAll("[data-f]").forEach(function(e){DEF[e.dataset.f]=e.innerText});
+  DEF.goal=12000000;DEF.raised=3600000;
+  var state=Object.assign({},DEF),shown=0,ref=null,editing=false,anim,C=2*Math.PI*90;
+
+  function fmt(n){try{return "Rp "+new Intl.NumberFormat("id-ID").format(Math.max(0,Math.round(n||0)))}catch(e){return "Rp "+n}}
+  function paint(v){
+    var goal=Math.max(1,state.goal),f=Math.min(1,v/goal);
+    $("raised").textContent=fmt(v);
+    $("pct").textContent=Math.floor(v/goal*100)+"%";
+    $("ring").style.strokeDashoffset=C*(1-f);
+  }
+  function tween(to){
+    cancelAnimationFrame(anim);
+    var from=shown,t0=performance.now(),d=900;
+    (function step(t){
+      var k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,3);
+      shown=from+(to-from)*e;paint(shown);
+      if(k<1)anim=requestAnimationFrame(step);else shown=to;
+    })(t0);
+  }
+  function render(){
+    if(!editing){
+      document.querySelectorAll("[data-f]").forEach(function(e){
+        if(state[e.dataset.f]!=null)e.textContent=state[e.dataset.f];
+      });
+      $("raisedIn").value=state.raised;$("goalIn").value=state.goal;
+    }
+    $("goalTxt").textContent=fmt(state.goal);
+    var left=state.goal-state.raised;
+    $("left").textContent=left>0?fmt(left)+" to go":"Goal reached 🎉";
+    if(Math.round(shown)!==Math.round(state.raised))tween(state.raised);else paint(shown);
+    document.title=state.title||"Crowdfunding Campaign";
+  }
+  function say(m){$("msg").textContent=m;setTimeout(function(){$("msg").textContent=""},3500)}
+  function save(s){
+    if(!ref){say("Database not available.");return}
+    ref.set(s).then(function(){say("Saved ✓")}).catch(function(e){say("Could not save: "+(e&&e.message||e))});
+  }
+  function collect(){
+    var s=Object.assign({},state);
+    document.querySelectorAll("[data-f]").forEach(function(e){s[e.dataset.f]=e.innerText.replace(/\n{3,}/g,"\n\n").trim()});
+    s.raised=Number($("raisedIn").value)||0;
+    s.goal=Number($("goalIn").value)||1;
+    return s;
+  }
+
+  $("donate").onclick=function(){
+    var b=$("bank");b.classList.toggle("open");
+    if(b.classList.contains("open"))setTimeout(function(){b.scrollIntoView({behavior:"smooth",block:"nearest"})},50);
+  };
+  $("copyBtn").onclick=function(){
+    var t=$("bank").querySelector('[data-f="accNo"]').innerText.replace(/\s/g,"");
+    var ok=function(){$("copyBtn").textContent="Copied ✓";setTimeout(function(){$("copyBtn").textContent="Copy account number"},1800)};
+    try{navigator.clipboard.writeText(t).then(ok,ok)}catch(e){ok()}
+  };
+  $("editBtn").onclick=function(){
+    editing=!editing;
+    document.body.classList.toggle("editing",editing);
+    document.querySelectorAll("[data-f]").forEach(function(e){e.contentEditable=editing});
+    if(editing)$("bank").classList.add("open");
+    $("editBtn").textContent=editing?"Done editing":"Edit page";
+    if(!editing)render();
+  };
+  $("saveBtn").onclick=function(){state=collect();render();save(state)};
+  $("addBtn").onclick=function(){
+    var a=Number($("add").value);
+    if(!(a>0)){say("Enter an amount above 0.");return}
+    var s=collect();s.raised=state.raised+a;state=s;
+    $("add").value="";render();save(state);
+  };
+
+  render();
+
+  var timer=setTimeout(function(){$("status").textContent="Preview mode"},10000);
+  (async function(){
+    try{
+      var user=await claude.use("user");
+      var can=user?await user.canEdit():false;
+      if(can){$("editBtn").classList.remove("hide");$("admin").classList.remove("hide")}
+      var db=await claude.use("db");
+      if(!db){clearTimeout(timer);$("status").textContent="Preview mode";return}
+      ref=db.doc("campaign/main");
+      ref.onSnapshot(function(s){
+        clearTimeout(timer);$("status").textContent="Live total";
+        if(s.exists)state=Object.assign({},DEF,s.data());
+        render();
+      },function(){clearTimeout(timer);$("status").textContent="Offline preview"});
+    }catch(e){clearTimeout(timer);$("status").textContent="Preview mode"}
+  })();
+})();
+</script>
+</body>
+</html>
